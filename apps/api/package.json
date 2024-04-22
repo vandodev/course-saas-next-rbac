@@ -8,6 +8,8 @@
     "@fastify/cors": "^9.0.1",
     "@prisma/client": "5.13.0",
     "@saas/auth": "workspace:*",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
     "fastify": "^4.26.2",
     "fastify-type-provider-zod": "^1.1.9",
     "zod": "^3.22.5"
