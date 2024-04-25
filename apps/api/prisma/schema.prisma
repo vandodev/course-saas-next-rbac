@@ -41,8 +41,8 @@ enum TokenType {
 }
 
 model Token {
-  id String @id @default(uuid())
-
+  id     String @id @default(uuid())
+  type   String
   user   User   @relation(fields: [userId], references: [id])
   // userId String -> Criado altomaticamente, o abaixo é renomeado
   userId String @map("user_id")
