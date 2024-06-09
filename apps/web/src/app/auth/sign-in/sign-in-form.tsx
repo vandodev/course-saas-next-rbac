@@ -1,11 +1,12 @@
 'use client'
 
-import { Loader2 } from 'lucide-react'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useActionState } from 'react'
 
 import githubIcon from '@/assets/github-icon.svg'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -14,22 +15,30 @@ import { Separator } from '@/components/ui/separator'
 import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
-  const [state, formAction, isPending] = useActionState(
+  const [{ errors, message, success }, formAction, isPending] = useActionState(
     signInWithEmailAndPassword,
     { success: false, message: null, errors: null },
   )
 
   return (
     <form action={formAction} className="space-y-4">
-      <h1>{JSON.stringify(state)}</h1>
+      {success === false && message && (
+        <Alert variant="destructive">
+          <AlertTriangle className="size-4" />
+          <AlertTitle>Sign in failed!</AlertTitle>
+          <AlertDescription>
+            <p>{message}</p>
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
         <Input name="email" type="email" id="email" />
 
-        {state.errors?.email && (
+        {errors?.email && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
-            {state.errors.email[0]}
+            {errors.email[0]}
           </p>
         )}
       </div>
@@ -38,9 +47,9 @@ export function SignInForm() {
         <Label htmlFor="password">Password</Label>
         <Input name="password" type="password" id="password" />
 
-        {state.errors?.password && (
+        {errors?.password && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
-            {state.errors.password[0]}
+            {errors.password[0]}
           </p>
         )}
 
