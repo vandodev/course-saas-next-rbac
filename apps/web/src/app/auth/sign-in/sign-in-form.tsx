@@ -16,21 +16,33 @@ import { signInWithEmailAndPassword } from './actions'
 export function SignInForm() {
   const [state, formAction, isPending] = useActionState(
     signInWithEmailAndPassword,
-    null,
+    { success: false, message: null, errors: null },
   )
 
   return (
     <form action={formAction} className="space-y-4">
-      <h1>{state}</h1>
+      <h1>{JSON.stringify(state)}</h1>
 
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
         <Input name="email" type="email" id="email" />
+
+        {state.errors?.email && (
+          <p className="text-xs font-medium text-red-500 dark:text-red-400">
+            {state.errors.email[0]}
+          </p>
+        )}
       </div>
 
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
         <Input name="password" type="password" id="password" />
+
+        {state.errors?.password && (
+          <p className="text-xs font-medium text-red-500 dark:text-red-400">
+            {state.errors.password[0]}
+          </p>
+        )}
 
         <Link
           href="/auth/forgot-password"
