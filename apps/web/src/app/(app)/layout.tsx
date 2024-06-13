@@ -4,12 +4,19 @@ import { isAuthenticated } from '@/auth/auth'
 
 export default function AppLayout({
   children,
+  teste,
 }: Readonly<{
   children: React.ReactNode
+  teste: React.ReactNode
 }>) {
   if (!isAuthenticated()) {
     redirect('/auth/sign-in')
   }
 
-  return <>{children}</>
+  return (
+    <>
+      {children}
+      {teste}
+    </>
+  )
 }
