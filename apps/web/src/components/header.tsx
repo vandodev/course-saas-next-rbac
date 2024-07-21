@@ -1,5 +1,6 @@
 import { Slash } from 'lucide-react'
 import Image from 'next/image'
+import { ProjectSwitcher } from './project-switcher'
 
 import rocketseatIcon from '@/assets/rocketseat-icon.svg'
 import { ability } from '@/auth/auth'
@@ -24,7 +25,12 @@ export async function Header() {
         <Slash className="size-3 -rotate-[24deg] text-border" />
 
         <OrganizationSwitcher />
-        {permissions?.can('get', 'Project') && <p>Project</p>}
+        {permissions?.can('get', 'Project') && (
+          <>
+            <Slash className="size-3 -rotate-[24deg] text-border" />
+            <ProjectSwitcher />
+          </>
+        )}
       </div>
 
       <div className="flex items-center gap-4">
