@@ -2,6 +2,8 @@
 
 import { ChevronsUpDown, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { use } from 'react'
 
 import { Avatar, AvatarFallback} from './ui/avatar'
 import {
@@ -13,8 +15,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
+import { getProjects } from '@/http/get-projects'
 
 export function ProjectSwitcher() {
+  const { slug: orgSlug } = useParams<{
+    slug: string
+  }>()
+
+  const projects = use(getProjects(orgSlug))
+  console.log(projects)
 
   return (
     <DropdownMenu>
