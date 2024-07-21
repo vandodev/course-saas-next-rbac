@@ -3,7 +3,7 @@
 import { ChevronsUpDown, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { use } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
 import { Avatar, AvatarFallback} from './ui/avatar'
 import {
@@ -22,8 +22,13 @@ export function ProjectSwitcher() {
     slug: string
   }>()
 
-  const projects = use(getProjects(orgSlug))
-  console.log(projects)
+  const { data, isLoading } = useQuery({
+    queryKey: [orgSlug, 'projects'],
+    queryFn: () => getProjects(orgSlug),
+    enabled: !!orgSlug,
+  })
+
+  console.log(data)
 
   return (
     <DropdownMenu>
