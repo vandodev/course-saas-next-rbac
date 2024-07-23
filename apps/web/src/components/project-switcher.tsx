@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 
-import { Avatar, AvatarFallback} from './ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,21 +43,29 @@ export function ProjectSwitcher() {
         className="w-[200px]"
       >
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Organizations</DropdownMenuLabel>
-            <DropdownMenuItem  asChild>
-                <Link href={``}>
-                  <Avatar className="mr-2 size-4">                   
-                    <AvatarFallback />
-                  </Avatar>
-                  <span className="line-clamp-1">Projeto teste</span>
-                </Link>
-            </DropdownMenuItem>        
+          <DropdownMenuLabel>Projects</DropdownMenuLabel>
+          {data &&
+            data.projects.map((project) => {
+              return (
+                <DropdownMenuItem key={project.id} asChild>
+                  <Link href={`/org/${orgSlug}/project/${project.slug}`}>
+                    <Avatar className="mr-2 size-4">
+                      {project.avatarUrl && (
+                        <AvatarImage src={project.avatarUrl} />
+                      )}
+                      <AvatarFallback />
+                    </Avatar>
+                    <span className="line-clamp-1">{project.name}</span>
+                  </Link>
+                </DropdownMenuItem>
+              )
+            })}     
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/create-organization">
+            <Link href={`/org/${orgSlug}/create-project`}>
             <PlusCircle className="mr-2 size-4" />
             Create new
           </Link>
