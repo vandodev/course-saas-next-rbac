@@ -1,6 +1,5 @@
 import { getCurrentOrg } from '@/auth/auth'
-
-import Link from 'next/link'
+import { NavLink } from './nav-link'
 import { Button } from './ui/button'
 
 export function Tabs() {
@@ -15,7 +14,7 @@ export function Tabs() {
           size="sm"
           className="border border-transparent text-muted-foreground data-[current=true]:border-border data-[current=true]:text-foreground"
         >
-        <Link href={`/org/${currentOrg}`}>Projects</Link>
+            <NavLink href={`/org/${currentOrg}`}>Projects</NavLink>
         </Button>
         <Button
           asChild
@@ -23,7 +22,7 @@ export function Tabs() {
           size="sm"
           className="border border-transparent text-muted-foreground data-[current=true]:border-border data-[current=true]:text-foreground"
         >
-         <Link href={`/org/${currentOrg}/members`}>Members</Link>
+          <NavLink href={`/org/${currentOrg}/members`}>Members</NavLink>
         </Button>
         <Button
           asChild
@@ -31,9 +30,9 @@ export function Tabs() {
           size="sm"
           className="border border-transparent text-muted-foreground data-[current=true]:border-border data-[current=true]:text-foreground"
         >         
-            <Link href={`/org/${currentOrg}/settings`}>
-            Settings & Billing
-          </Link>        
+            <NavLink href={`/org/${currentOrg}/settings`}>
+                Settings & Billing
+            </NavLink>       
         </Button>
       </nav>
     </div>
