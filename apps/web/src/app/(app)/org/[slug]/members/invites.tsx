@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { getInvites } from '@/http/get-invites'
 
+import { RevokeInviteButton } from './revoke-invite-button'
 
 export async function Invites() {
   const currentOrg = getCurrentOrg()
@@ -37,7 +38,14 @@ export async function Invites() {
                     </TableCell>
                     <TableCell className="py-2.5 font-medium">
                       {invite.role}
-                    </TableCell>                
+                    </TableCell>
+                    <TableCell className="py-2.5">
+                      <div className="flex justify-end">
+                        {permissions?.can('delete', 'Invite') && (
+                          <RevokeInviteButton inviteId={invite.id} />
+                        )}
+                      </div>
+                    </TableCell>
                   </TableRow>
                 )
               })}
