@@ -7,7 +7,8 @@ import { getInvite } from '@/http/get-invite'
 import { Button } from '@/components/ui/button'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { LogIn } from 'lucide-react'
+import { CheckCircle, LogIn } from 'lucide-react'
+import { acceptInvite } from '@/http/accept-invite'
 
 dayjs.extend(relativeTime)
 
@@ -20,13 +21,31 @@ interface InvitePageProps {
 export default async function InvitePage({ params }: InvitePageProps) {
   const inviteId = params.id
   const isUserAuthenticated = isAuthenticated()
+  let currentUserEmail = null
+
+  if (isUserAuthenticated) {
+    const { user } = await auth()
+
+    currentUserEmail = user.email
+  }
 
   const { invite } = await getInvite(inviteId)
+
+  const userIsAuthenticatedWithSameEmailFromInvite =
+  currentUserEmail === invite.email
 
   async function signInFromInvite() {
     'use server'
     cookies().set('inviteId', inviteId)
     redirect(`/auth/sign-in?email=${invite.email}`)
+  }
+
+  async function acceptInviteAction() {
+    'use server'
+
+    await acceptInvite(inviteId)
+
+    redirect('/')
   }
 
   return (
@@ -63,6 +82,16 @@ export default async function InvitePage({ params }: InvitePageProps) {
             </Button>
           </form>
         )}
+
+        {userIsAuthenticatedWithSameEmailFromInvite && (
+          <form action={acceptInviteAction}>
+            <Button type="submit" variant="secondary" className="w-full">
+              <CheckCircle className="mr-2 size-4" />
+              Join {invite.organization.name}
+            </Button>
+          </form>
+        )}
+
       </div>
     </div>
   )
