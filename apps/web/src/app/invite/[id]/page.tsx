@@ -1,3 +1,4 @@
+import { getInvite } from '@/http/get-invite'
 
 interface InvitePageProps {
     params: {
@@ -7,7 +8,6 @@ interface InvitePageProps {
 
 export default async function InvitePage({ params }: InvitePageProps) {
     const inviteId = params.id
-    return <p>{inviteId}</p>
+    const { invite } = await getInvite(inviteId)
+    return <pre>{JSON.stringify(invite,null,2)}</pre>
 }
-//http://localhost:3000/invite/idDoConvite
-//http://localhost:3000/invite/b1965c67-ef9f-46d6-bffc-51eecfb56a95
